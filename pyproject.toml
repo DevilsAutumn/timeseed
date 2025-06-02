@@ -1,0 +1,252 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "timeseed"
+version = "0.1.0"
+authors = [
+    { name="Bhuvnesh Sharma", email="bhuvnesh875@gmail.com" },
+]
+description = "High-performance chronologically ordered unique ID generator with configurable bit allocation for distributed systems"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+keywords = [
+    "uuid", 
+    "id", 
+    "identifier", 
+    "timestamp", 
+    "chronological", 
+    "distributed", 
+    "unique", 
+    "time-ordered", 
+    "snowflake",
+    "ulid",
+    "generator"
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+    "Topic :: Database",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/devilsautumn/timeseed"
+Repository = "https://github.com/devilsautumn/timeseed"
+Documentation = "https://github.com/devilsautumn/timeseed#readme"
+"Bug Reports" = "https://github.com/devilsautumn/timeseed/issues"
+"Source Code" = "https://github.com/devilsautumn/timeseed"
+Changelog = "https://github.com/devilsautumn/timeseed/blob/main/README.md#changelog"
+
+[project.scripts]
+timeseed = "timeseed.cli:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-xdist>=3.0.0",
+    "pytest-timeout>=2.1.0",
+    "coverage[toml]>=7.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-xdist>=3.0.0",
+    "pytest-timeout>=2.1.0",
+    "coverage[toml]>=7.0.0",
+    "ruff>=0.3.0",
+    "mypy>=1.0",
+    "pre-commit>=3.0.0",
+]
+benchmark = [
+    "psutil>=5.9.0",
+    "matplotlib>=3.5.0",
+]
+all = [
+    "timeseed[test,dev,benchmark]"
+]
+
+[tool.setuptools]
+packages = ["timeseed"]
+include-package-data = true
+
+[tool.setuptools.package-dir]
+"timeseed" = "timeseed"
+
+[tool.setuptools.package-data]
+timeseed = ["py.typed"]
+
+# Ruff configuration (replaces black, isort, flake8)
+[tool.ruff]
+# Enable all rules
+select = ["E", "F", "I", "B", "UP"]
+ignore = []
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude common directories
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Allow unused variables when they start with _
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Line length (matches black)
+line-length = 100
+
+# Python version
+target-version = "py38"
+
+# Format with black compatibility
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+# isort settings
+[tool.ruff.isort]
+known-first-party = ["timeseed"]
+
+# flake8-bugbear settings
+[tool.ruff.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query"]
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+# Per-file-ignores
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["S101"]
+"**/migrations/*" = ["E501"]
+
+# Pytest configuration
+[tool.pytest.ini_options]
+# Test discovery
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Output configuration
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--strict-config",
+    "--color=yes",
+    "--durations=10",
+    "--cov=timeseed",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+    "--cov-fail-under=85",
+]
+
+# Markers for test categorization
+markers = [
+    "generator: Tests for ID generation functionality",
+    "config: Tests for configuration functionality",
+    "integration: Integration tests for end-to-end workflows", 
+    "performance: Performance and benchmark tests",
+    "cli: Command line interface tests",
+    "edge_case: Edge cases and error condition tests",
+    "simple_id: Unit tests for simple_id functionality",
+    "utils: Unit tests for utils functionality",
+]
+
+# Test filtering
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+    "ignore:.*random.*ID.*:UserWarning",
+    "ignore:.*unclosed.*:ResourceWarning",
+]
+
+# Test timeouts
+timeout = 300
+timeout_method = "thread"
+
+# Minimum version requirements
+minversion = "7.0"
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["timeseed"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/migrations/*",
+    "*/venv/*",
+    "*/env/*",
+    "*/build/*",
+    "*/dist/*",
+]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "if __name__ == .__main__.:",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if False:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+show_missing = true
+skip_covered = false
+precision = 2
+sort = "Cover"
+
+[tool.coverage.html]
+directory = "htmlcov"
+title = "TimeSeed Coverage Report"
+
+[tool.coverage.xml]
+output = "coverage.xml"
