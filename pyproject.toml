@@ -52,7 +52,7 @@ Repository = "https://github.com/devilsautumn/timeseed"
 Documentation = "https://github.com/devilsautumn/timeseed#readme"
 "Bug Reports" = "https://github.com/devilsautumn/timeseed/issues"
 "Source Code" = "https://github.com/devilsautumn/timeseed"
-Changelog = "https://github.com/devilsautumn/timeseed/blob/main/README.md#changelog"
+Changelog = "https://github.com/devilsautumn/timeseed/blob/main/CHANGELOG.md"
 
 [project.scripts]
 timeseed = "timeseed.cli:main"
