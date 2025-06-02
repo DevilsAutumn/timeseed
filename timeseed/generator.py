@@ -255,11 +255,9 @@ class TimeSeed:
                 return id_value
 
         except Exception as e:
-            # Re-raise TimeSeed exceptions as-is
             if isinstance(e, TimeSeedError):
                 raise
-            # Wrap other exceptions
-            raise TimeSeedError(f"Unexpected error during ID generation: {e}")
+            raise TimeSeedError(f"Unexpected error during ID generation: {e}") from e
 
     def generate_hex(self, uppercase: bool = None) -> str:
         """
@@ -351,8 +349,8 @@ class TimeSeed:
         if isinstance(target_format, str):
             try:
                 target_format = IDFormat(target_format.lower())
-            except ValueError:
-                raise FormatError(f"Unsupported format: {target_format}")
+            except ValueError as e:
+                raise FormatError(f"Unsupported format: {target_format}") from e
 
         if target_format == IDFormat.INTEGER:
             return str(id_value)
@@ -433,7 +431,7 @@ class TimeSeed:
         except Exception as e:
             if isinstance(e, DecodingError):
                 raise
-            raise DecodingError(f"Failed to decode ID {id_value}: {e}")
+            raise DecodingError(f"Failed to decode ID {id_value}: {e}") from e
 
     def decode_hex(self, hex_str: str) -> TimeSeedComponents:
         """Decode hexadecimal string representation."""
@@ -441,7 +439,7 @@ class TimeSeed:
             id_value = FormatUtils.hex_to_int(hex_str)
             return self.decode(id_value)
         except Exception as e:
-            raise DecodingError(f"Failed to decode hex string '{hex_str}': {e}")
+            raise DecodingError(f"Failed to decode hex string '{hex_str}': {e}") from e
 
     def decode_base62(self, base62_str: str) -> TimeSeedComponents:
         """Decode base62 string representation."""
@@ -449,7 +447,7 @@ class TimeSeed:
             id_value = FormatUtils.base_to_int(base62_str, self.config.base62_alphabet)
             return self.decode(id_value)
         except Exception as e:
-            raise DecodingError(f"Failed to decode base62 string '{base62_str}': {e}")
+            raise DecodingError(f"Failed to decode base62 string '{base62_str}': {e}") from e
 
     def decode_base32(self, base32_str: str) -> TimeSeedComponents:
         """Decode Crockford base32 string representation."""
@@ -457,7 +455,7 @@ class TimeSeed:
             id_value = FormatUtils.base32_to_int(base32_str)
             return self.decode(id_value)
         except Exception as e:
-            raise DecodingError(f"Failed to decode base32 string '{base32_str}': {e}")
+            raise DecodingError(f"Failed to decode base32 string '{base32_str}': {e}") from e
 
     def get_info(self) -> Dict[str, Any]:
         """Get comprehensive information about this generator."""

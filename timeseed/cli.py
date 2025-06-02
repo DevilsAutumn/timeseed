@@ -15,7 +15,7 @@ from typing import List
 
 # Import TimeSeed components
 try:
-    from timeseed import (
+    from timeseed import (  # noqa: F401
         PresetConfigs,
         TimeSeed,
         TimeSeedComponents,
@@ -35,8 +35,8 @@ try:
         get_info,
         get_performance_stats,
     )
-    from timeseed.exceptions import TimeSeedError
-    from timeseed.utils import FormatUtils
+    from timeseed.exceptions import DecodingError, TimeSeedError  # noqa: F401
+    from timeseed.utils import FormatUtils  # noqa: F401
 except ImportError as e:
     print(f"Error: Unable to import TimeSeed: {e}")
     print("Make sure TimeSeed is properly installed.")
@@ -218,7 +218,7 @@ def cmd_decode(args) -> int:
                         # Try base62 first, then base32
                         try:
                             components = generator.decode_base62(id_str)
-                        except:
+                        except DecodingError:
                             components = generator.decode_base32(id_str)
                 elif input_format == "integer":
                     components = generator.decode(int(id_str))
@@ -354,9 +354,9 @@ def cmd_benchmark(args) -> int:
             print("\nPer-thread results:")
             for i, count in enumerate(results):
                 rate = count / actual_duration if actual_duration > 0 else 0
-                print(
-                    f"  Thread {i}: {format_large_number(count)} IDs ({format_large_number(int(rate))} IDs/sec)"
-                )
+                count_str = format_large_number(count)
+                rate_str = format_large_number(int(rate))
+                print(f"  Thread {i}: {count_str} IDs ({rate_str} IDs/sec)")
 
         # Performance stats from generator
         stats = generator.get_performance_stats()
@@ -508,7 +508,7 @@ def cmd_check(args) -> int:
         if getattr(args, "examples", False):
             examples = get_configuration_examples()
             print("\nConfiguration Examples:")
-            for env_name, config in examples.items():
+            for _, config in examples.items():
                 print(f"\n{config['description']}:")
                 for line in config["setup"]:
                     print(f"  {line}")
@@ -609,7 +609,7 @@ Author: {__author__}
     )
 
     # Config command
-    config_parser = subparsers.add_parser("config", help="Show configuration options")
+    config_parser = subparsers.add_parser("config", help="Show configuration options")  # noqa: F841
 
     # Check command
     check_parser = subparsers.add_parser("check", help="Check production readiness")

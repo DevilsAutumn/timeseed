@@ -51,7 +51,10 @@ Perfect for:
 __version__ = "0.1.0"
 __author__ = "Bhuvnesh Sharma"
 __email__ = "bhuvnesh875@gmail.com"
-__description__ = "High-performance chronologically ordered unique ID generator with configurable bit allocation for distributed systems."
+__description__ = (
+    "High-performance chronologically ordered unique ID generator with "
+    "configurable bit allocation for distributed systems."
+)
 __url__ = "https://github.com/devilsautumn/timeseed"
 __license__ = "MIT"
 

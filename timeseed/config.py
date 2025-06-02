@@ -26,7 +26,9 @@ class BitAllocation:
     """
     Immutable configuration for bit allocation in TimeSeed IDs.
 
-    Default allocation: [48 bits: Timestamp] [16 bits: Machine ID] [16 bits: Datacenter] [42 bits: Sequence]
+    Default allocation:
+    [48 bits: Timestamp] [16 bits: Machine ID] [16 bits: Datacenter] [42 bits: Sequence]
+
     Total: 122 bits (leaving 6 bits for future use or padding)
     """
 
@@ -306,7 +308,7 @@ class PresetConfigs:
     def long_lifespan() -> TimeSeedConfig:
         """Configuration optimized for long lifespan (more timestamp bits)."""
         return TimeSeedConfig.create_custom(
-            timestamp_bits=55,  # ~1100 years
+            timestamp_bits=55,  # ~1140 years
             machine_bits=12,  # 4096 machines
             datacenter_bits=8,  # 256 datacenters
             sequence_bits=31,  # 2 billion IDs per millisecond
@@ -316,7 +318,7 @@ class PresetConfigs:
     def many_datacenters() -> TimeSeedConfig:
         """Configuration optimized for many datacenters."""
         return TimeSeedConfig.create_custom(
-            timestamp_bits=45,  # ~17 years
+            timestamp_bits=45,  # ~36 years
             machine_bits=12,  # 4096 machines
             datacenter_bits=20,  # 1 million datacenters
             sequence_bits=29,  # 500 million IDs per millisecond
@@ -326,7 +328,7 @@ class PresetConfigs:
     def small_scale() -> TimeSeedConfig:
         """Configuration for smaller deployments with more timestamp precision."""
         return TimeSeedConfig.create_custom(
-            timestamp_bits=52,  # ~280 years
+            timestamp_bits=52,  # ~142 years
             machine_bits=8,  # 256 machines
             datacenter_bits=4,  # 16 datacenters
             sequence_bits=42,  # 4 trillion IDs per millisecond

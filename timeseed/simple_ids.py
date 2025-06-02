@@ -46,6 +46,7 @@ def resolve_machine_id(explicit_id: Optional[int] = None, max_value: int = 65535
                     f"TIMESEED_MACHINE_ID={machine_id} is out of range [0, {max_value}]. "
                     f"Using {machine_id % (max_value + 1)} instead.",
                     UserWarning,
+                    stacklevel=2,
                 )
                 return machine_id % (max_value + 1)
             return machine_id
@@ -53,6 +54,7 @@ def resolve_machine_id(explicit_id: Optional[int] = None, max_value: int = 65535
             warnings.warn(
                 f"TIMESEED_MACHINE_ID='{env_id}' is not a valid integer. Using random machine ID.",
                 UserWarning,
+                stacklevel=2,
             )
 
     # 3. Random fallback with warning
@@ -62,6 +64,7 @@ def resolve_machine_id(explicit_id: Optional[int] = None, max_value: int = 65535
         "For production, set TIMESEED_MACHINE_ID environment variable or "
         "pass machine_id parameter to ensure consistent IDs.",
         UserWarning,
+        stacklevel=2,
     )
     return machine_id
 
@@ -101,6 +104,7 @@ def resolve_datacenter_id(explicit_id: Optional[int] = None, max_value: int = 65
                     f"TIMESEED_DATACENTER_ID={datacenter_id} is out of range [0, {max_value}]. "
                     f"Using {datacenter_id % (max_value + 1)} instead.",
                     UserWarning,
+                    stacklevel=2,
                 )
                 return datacenter_id % (max_value + 1)
             return datacenter_id
@@ -109,6 +113,7 @@ def resolve_datacenter_id(explicit_id: Optional[int] = None, max_value: int = 65
                 f"TIMESEED_DATACENTER_ID='{env_id}' is not a valid integer. "
                 "Using random datacenter ID.",
                 UserWarning,
+                stacklevel=2,
             )
 
     # 3. Random fallback with warning
@@ -118,6 +123,7 @@ def resolve_datacenter_id(explicit_id: Optional[int] = None, max_value: int = 65
         "For production, set TIMESEED_DATACENTER_ID environment variable or "
         "pass datacenter_id parameter to ensure consistent IDs.",
         UserWarning,
+        stacklevel=2,
     )
     return datacenter_id
 
