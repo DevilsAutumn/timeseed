@@ -1,0 +1,49 @@
+# mkdocs.yml
+site_name: TimeSeed Documentation
+site_description: High-performance chronologically ordered unique ID generator for distributed systems
+site_author: Bhuvnesh Sharma
+site_url: https://timeseed.readthedocs.io/
+
+repo_name: devilsautumn/timeseed
+repo_url: https://github.com/devilsautumn/timeseed
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/devilsautumn/timeseed
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/timeseed/
+
+copyright: Copyright &copy; 2025 Bhuvnesh Sharma
