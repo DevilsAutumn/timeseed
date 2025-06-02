@@ -7,5 +7,5 @@
 - Format conversion and auto-detection capabilities
 - Performance monitoring and statistics
 - Preset configurations for common use cases
-- Thread-safe high-performance generation
+- Thread-safe and high-performance generation
 - Zero external dependencies
