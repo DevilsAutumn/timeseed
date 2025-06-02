@@ -182,18 +182,6 @@ addopts = [
     "--cov-fail-under=85",
 ]
 
-# Markers for test categorization
-markers = [
-    "generator: Tests for ID generation functionality",
-    "config: Tests for configuration functionality",
-    "integration: Integration tests for end-to-end workflows", 
-    "performance: Performance and benchmark tests",
-    "cli: Command line interface tests",
-    "edge_case: Edge cases and error condition tests",
-    "simple_id: Unit tests for simple_id functionality",
-    "utils: Unit tests for utils functionality",
-]
-
 # Test filtering
 filterwarnings = [
     "ignore::DeprecationWarning",
