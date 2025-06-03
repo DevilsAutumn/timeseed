@@ -24,6 +24,16 @@ TimeSeed generates 128-bit unique identifiers with strict temporal ordering guar
 - URL-safe identifiers with time-based sorting
 - Migration from auto-increment IDs while preserving order
 
+## Fun facts about TimeSeed
+
+With default configuration:
+
+- **128-bit ID space** supports 4.3 billion machines (2^32) each generating 4.4 trillion IDs per millisecond
+- **Generation rate** of 10 million IDs/second would take 10^23 years to exhaust - that's 7 trillion times the universe's age
+- **Sequence space per millisecond** (2^42) exceeds total IPv4 address space (2^32) by a factor of 1,024
+- **Generated 1 billion IDs?** You've used only 0.00000000000000000000000000029% of the total capacity
+
+
 ## Installation
 
 ```bash
@@ -231,18 +241,6 @@ Run benchmarks to test on your system:
 ```bash
 timeseed benchmark -d 10 -t 4  # 10 seconds, 4 threads
 ```
-
-## Fun facts about TimeSeed
-
-With default configuration:
-
-- **128-bit ID space** supports 4.3 billion machines (2^32) each generating 4.4 trillion IDs per millisecond
-- **Generation rate** of 10 million IDs/second would take 10^23 years to exhaust - that's 7 trillion times the universe's age
-- **Sequence space per millisecond** (2^42) exceeds total IPv4 address space (2^32) by a factor of 1,024
-- **Generated 1 billion IDs?** You've used only 0.00000000000000000000000000029% of the total capacity
-
-
-
 
 ## Contributing
 
