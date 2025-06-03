@@ -24,7 +24,6 @@ TimeSeed generates 128-bit unique identifiers with strict temporal ordering guar
 - URL-safe identifiers with time-based sorting
 - Migration from auto-increment IDs while preserving order
 
-
 ## Fun facts about TimeSeed
 
 With default configuration:
