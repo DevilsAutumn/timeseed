@@ -44,11 +44,11 @@ TimeSeed uses a 128-bit structure with sensible defaults:
 ┌─────────────┬──────────────┬──────────────┬─────────────┬──────────┐
 │ Timestamp   │ Machine ID   │ Datacenter   │ Sequence    │ Reserved │
 │ 48 bits     │ 16 bits      │ 16 bits      │ 42 bits     │ 6 bits   │
-│ (878 years) │ (65K machines)│ (65K DCs)   │ (4.4T/ms)   │ (future) │
+│ (8920 years) │ (65K machines)│ (65K DCs)   │ (4.4T/ms)   │ (future) │
 └─────────────┴──────────────┴──────────────┴─────────────┴──────────┘
 ```
 
-This provides 878 years of range with 4.4 trillion IDs per millisecond per machine.
+This provides 8920 years of range with 4.4 trillion IDs per millisecond per machine.
 
 ## Installation
 
