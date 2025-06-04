@@ -38,7 +38,7 @@ class BitAllocation:
     sequence_bits: int = 42
     total_bits: int = 128
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate bit allocation after initialization."""
         used_bits = (
             self.timestamp_bits + self.machine_bits + self.datacenter_bits + self.sequence_bits
@@ -160,7 +160,7 @@ class TimeSeedConfig:
     hex_uppercase: bool = True
     base62_alphabet: str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         """Validate configuration after initialization."""
         # Validate IDs are within range
         if self.machine_id is not None:

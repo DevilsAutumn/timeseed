@@ -8,7 +8,7 @@ time operations, validation, and performance monitoring.
 import threading
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict
+from typing import Any, Dict, List, Union
 
 
 class FormatUtils:
@@ -127,7 +127,7 @@ class ValidationUtils:
 
     @staticmethod
     def validate_id_components(
-        timestamp: int, machine_id: int, datacenter_id: int, sequence: int, bit_allocation
+        timestamp: int, machine_id: int, datacenter_id: int, sequence: int, bit_allocation: Any
     ) -> bool:
         """
         Validate that all ID components are within their bit ranges.
@@ -159,8 +159,8 @@ class ValidationUtils:
 class PerformanceMonitor:
     """Performance monitoring and statistics collection."""
 
-    def __init__(self):
-        self._stats = {
+    def __init__(self) -> None:
+        self._stats: Dict[str, Union[int, List[float]]] = {
             "ids_generated": 0,
             "sequence_overflows": 0,
             "clock_backward_events": 0,
@@ -172,36 +172,51 @@ class PerformanceMonitor:
     def record_generation(self, generation_time_ms: float) -> None:
         """Record ID generation statistics."""
         with self._lock:
-            self._stats["ids_generated"] += 1
-            self._stats["generation_times"].append(generation_time_ms)
+            ids_generated = self._stats["ids_generated"]
+            if isinstance(ids_generated, int):
+                self._stats["ids_generated"] = ids_generated + 1
 
-            # Keep only recent times for memory efficiency
-            if len(self._stats["generation_times"]) > 10000:
-                self._stats["generation_times"] = self._stats["generation_times"][-5000:]
+            generation_times = self._stats["generation_times"]
+            if isinstance(generation_times, list):
+                generation_times.append(generation_time_ms)
+
+                # Keep only recent times for memory efficiency
+                if len(generation_times) > 10000:
+                    self._stats["generation_times"] = generation_times[-5000:]
 
     def record_sequence_overflow(self) -> None:
         """Record sequence overflow event."""
         with self._lock:
-            self._stats["sequence_overflows"] += 1
+            overflows = self._stats["sequence_overflows"]
+            if isinstance(overflows, int):
+                self._stats["sequence_overflows"] = overflows + 1
 
     def record_clock_backward(self) -> None:
         """Record clock backward event."""
         with self._lock:
-            self._stats["clock_backward_events"] += 1
+            events = self._stats["clock_backward_events"]
+            if isinstance(events, int):
+                self._stats["clock_backward_events"] = events + 1
 
     def record_wait_event(self) -> None:
         """Record wait event."""
         with self._lock:
-            self._stats["wait_events"] += 1
+            events = self._stats["wait_events"]
+            if isinstance(events, int):
+                self._stats["wait_events"] = events + 1
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> Dict[str, Union[int, float, List[float]]]:
         """Get performance statistics."""
         with self._lock:
-            stats = self._stats.copy()
+            # Create a new dictionary with broader type
+            stats: Dict[str, Union[int, float, List[float]]] = {}
+            for key, value in self._stats.items():
+                stats[key] = value
 
             # Calculate additional metrics
-            if stats["generation_times"]:
-                times = stats["generation_times"]
+            generation_times = stats["generation_times"]
+            if generation_times and isinstance(generation_times, list):
+                times: List[float] = generation_times
                 stats["avg_generation_time"] = sum(times) / len(times)
                 stats["min_generation_time"] = min(times)
                 stats["max_generation_time"] = max(times)
@@ -211,12 +226,12 @@ class PerformanceMonitor:
                     time_span = max(times) - min(times)
                     stats["recent_generation_rate"] = len(times) / time_span if time_span > 0 else 0
                 else:
-                    stats["recent_generation_rate"] = 0
+                    stats["recent_generation_rate"] = 0.0
             else:
-                stats["avg_generation_time"] = 0
-                stats["min_generation_time"] = 0
-                stats["max_generation_time"] = 0
-                stats["recent_generation_rate"] = 0
+                stats["avg_generation_time"] = 0.0
+                stats["min_generation_time"] = 0.0
+                stats["max_generation_time"] = 0.0
+                stats["recent_generation_rate"] = 0.0
 
             return stats
 

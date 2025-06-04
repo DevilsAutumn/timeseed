@@ -1,0 +1,51 @@
+default_language_version:
+  python: python3.12
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '^.*\.(md|rst)$'
+      - id: end-of-file-fixer
+        exclude: '^.*\.(jpg|png|jpeg|gif|bmp|svg|ico)$'
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=500']
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: debug-statements
+      - id: detect-private-key
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+      - id: name-tests-test
+        args: ['--pytest-test-first']
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.7
+    hooks:
+      - id: ruff
+        args: [--fix, --exit-non-zero-on-fix]
+        types_or: [python, pyi]
+      - id: ruff-format
+        types_or: [python, pyi]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        args: [
+          --strict,
+          --ignore-missing-imports,
+          --allow-untyped-decorators,
+          --no-warn-return-any,
+          --python-version=3.12,
+          --show-error-codes,
+          --pretty,
+        ]
+        exclude: '^(tests|docs|build|dist|.*\.egg-info)'
+        additional_dependencies: [
+          'types-setuptools',
+        ]

@@ -204,13 +204,13 @@ git clone https://github.com/<your-username>/timeseed.git
 cd timeseed
 
 # Install in development mode
-pip install -e .
+pip install -e ".[dev]"
 
 # Check production readiness
 python -m timeseed.cli check --examples
 
-# Type checking
-mypy timeseed
+# Pre-commit hooks
+pre-commit install  
 ```
 
 ## CLI Help

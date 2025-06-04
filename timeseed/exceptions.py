@@ -4,6 +4,7 @@ Custom exceptions for TimeSeed operations.
 This module defines all exception types that can be raised during ID generation
 and related operations.
 """
+
 from typing import Optional
 
 
