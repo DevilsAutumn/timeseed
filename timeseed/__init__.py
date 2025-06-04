@@ -60,7 +60,7 @@ __license__ = "MIT"
 
 
 import threading
-from typing import Optional
+from typing import Any, Dict, List, Optional, Union
 
 from .config import DEFAULT_CONFIG, BitAllocation, IDFormat, PresetConfigs, TimeSeedConfig
 from .exceptions import (
@@ -106,9 +106,9 @@ def _get_default_generator() -> TimeSeed:
 
 
 def configure_default(
-    config: Optional[TimeSeedConfig] = None, 
-    machine_id: Optional[int] = None, 
-    datacenter_id: Optional[int] = None
+    config: Optional[TimeSeedConfig] = None,
+    machine_id: Optional[int] = None,
+    datacenter_id: Optional[int] = None,
 ) -> None:
     """
     Configure the default TimeSeed generator.
@@ -225,7 +225,7 @@ def generate_binary() -> str:
     return _get_default_generator().generate_binary()
 
 
-def generate_batch(count: int, format_type: str = "integer") -> list:
+def generate_batch(count: int, format_type: str = "integer") -> List[Union[int, str]]:
     """
     Generate multiple TimeSeed IDs efficiently.
 
@@ -339,7 +339,7 @@ def validate_id(id_value: int) -> bool:
     return _get_default_generator().validate_id(id_value)
 
 
-def get_info() -> dict:
+def get_info() -> Dict[str, Any]:
     """
     Get comprehensive information about the default generator.
 
@@ -354,7 +354,7 @@ def get_info() -> dict:
     return _get_default_generator().get_info()
 
 
-def get_performance_stats() -> dict:
+def get_performance_stats() -> Dict[str, Any]:
     """
     Get performance statistics for the default generator.
 

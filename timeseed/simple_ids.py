@@ -128,18 +128,14 @@ def resolve_datacenter_id(explicit_id: Optional[int] = None, max_value: int = 65
     return datacenter_id
 
 
-def validate_production_readiness() -> dict:
+def validate_production_readiness() -> Dict[str, Any]:
     """
     Check if TimeSeed is properly configured for production use.
 
     Returns:
         dict: Configuration status and recommendations
     """
-    status: Dict[str, Any] = {
-        "production_ready": True,
-        "warnings": [],
-        "recommendations": []
-    }
+    status: Dict[str, Any] = {"production_ready": True, "warnings": [], "recommendations": []}
 
     # Check machine ID configuration
     machine_id_set = os.environ.get("TIMESEED_MACHINE_ID") is not None
@@ -173,7 +169,7 @@ def validate_production_readiness() -> dict:
     return status
 
 
-def get_configuration_examples() -> dict:
+def get_configuration_examples() -> Dict[str, Any]:
     """
     Get examples of how to configure TimeSeed for different environments.
 

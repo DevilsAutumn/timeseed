@@ -11,7 +11,8 @@ import os
 import sys
 import threading
 import time
-from typing import List, Tuple, Union
+from argparse import Namespace
+from typing import List, Optional, Tuple, Union
 
 # Import TimeSeed components
 try:
@@ -86,9 +87,9 @@ def format_duration(seconds: float) -> str:
         return f"{minutes}m {secs:.1f}s"
 
 
-def create_generator_from_args(args) -> TimeSeed:
+def create_generator_from_args(args: Namespace) -> TimeSeed:
     """Create TimeSeed generator from command line arguments."""
-    config = None
+    config: Optional[TimeSeedConfig] = None
 
     # Check for preset configurations
     if hasattr(args, "preset") and args.preset:
@@ -113,25 +114,25 @@ def create_generator_from_args(args) -> TimeSeed:
             timestamp_bits=int(getattr(args, "timestamp_bits", 48)),
             machine_bits=int(getattr(args, "machine_bits", 16)),
             datacenter_bits=int(getattr(args, "datacenter_bits", 16)),
-            sequence_bits=int(getattr(args, "sequence_bits", 42))
+            sequence_bits=int(getattr(args, "sequence_bits", 42)),
         )
 
     # Create generator with optional machine/datacenter IDs
     machine_id = (
-        int(getattr(args, "machine_id", 0)) 
-        if hasattr(args, "machine_id") and args.machine_id is not None 
+        int(getattr(args, "machine_id", 0))
+        if hasattr(args, "machine_id") and args.machine_id is not None
         else None
     )
     datacenter_id = (
-        int(getattr(args, "datacenter_id", 0)) 
-        if hasattr(args, "datacenter_id") and args.datacenter_id is not None 
+        int(getattr(args, "datacenter_id", 0))
+        if hasattr(args, "datacenter_id") and args.datacenter_id is not None
         else None
     )
 
     return TimeSeed(config, machine_id, datacenter_id)
 
 
-def cmd_generate(args) -> int:
+def cmd_generate(args: Namespace) -> int:
     """Generate TimeSeed IDs."""
     try:
         generator = create_generator_from_args(args)
@@ -200,7 +201,7 @@ def cmd_generate(args) -> int:
         return 1
 
 
-def cmd_decode(args) -> int:
+def cmd_decode(args: Namespace) -> int:
     """Decode TimeSeed IDs."""
     try:
         generator = create_generator_from_args(args)
@@ -272,7 +273,7 @@ def cmd_decode(args) -> int:
         return 1
 
 
-def cmd_benchmark(args) -> int:
+def cmd_benchmark(args: Namespace) -> int:
     """Run performance benchmarks."""
     try:
         generator = create_generator_from_args(args)
@@ -286,7 +287,7 @@ def cmd_benchmark(args) -> int:
         )
 
         # Benchmark function
-        def benchmark_thread(results: List[int], thread_id: int):
+        def benchmark_thread(results: List[int], thread_id: int) -> None:
             count = 0
             start_time = time.time()
             end_time = start_time + duration
@@ -373,7 +374,7 @@ def cmd_benchmark(args) -> int:
         return 1
 
 
-def cmd_info(args) -> int:
+def cmd_info(args: Namespace) -> int:
     """Display TimeSeed configuration and system information."""
     try:
         generator = create_generator_from_args(args)
@@ -436,7 +437,7 @@ def cmd_info(args) -> int:
         return 1
 
 
-def cmd_config(args) -> int:
+def cmd_config(args: Namespace) -> int:
     """Configure TimeSeed settings."""
     print_info("Configuration management")
 
@@ -462,7 +463,7 @@ def cmd_config(args) -> int:
     return 0
 
 
-def cmd_check(args) -> int:
+def cmd_check(args: Namespace) -> int:
     """Check if TimeSeed is properly configured for production."""
     try:
         from timeseed.simple_ids import get_configuration_examples, validate_production_readiness
@@ -522,7 +523,7 @@ Examples:
   timeseed decode 123456789                   # Decode an ID
   timeseed benchmark -d 30 -t 4               # 30-second benchmark with 4 threads
   timeseed info                               # Show configuration
-  
+
 Version: {__version__}
 Author: {__author__}
         """,
