@@ -4,12 +4,13 @@ Custom exceptions for TimeSeed operations.
 This module defines all exception types that can be raised during ID generation
 and related operations.
 """
+from typing import Optional
 
 
 class TimeSeedError(Exception):
     """Base exception for all TimeSeed-related errors."""
 
-    def __init__(self, message: str, error_code: str = None):
+    def __init__(self, message: str, error_code: Optional[str] = None):
         super().__init__(message)
         self.message = message
         self.error_code = error_code or self.__class__.__name__

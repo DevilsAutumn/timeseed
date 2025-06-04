@@ -8,7 +8,7 @@ resolution with only three strategies: explicit, environment, and random.
 import os
 import random
 import warnings
-from typing import Optional
+from typing import Any, Dict, Optional
 
 
 def resolve_machine_id(explicit_id: Optional[int] = None, max_value: int = 65535) -> int:
@@ -135,7 +135,11 @@ def validate_production_readiness() -> dict:
     Returns:
         dict: Configuration status and recommendations
     """
-    status = {"production_ready": True, "warnings": [], "recommendations": []}
+    status: Dict[str, Any] = {
+        "production_ready": True,
+        "warnings": [],
+        "recommendations": []
+    }
 
     # Check machine ID configuration
     machine_id_set = os.environ.get("TIMESEED_MACHINE_ID") is not None
