@@ -11,7 +11,7 @@ import os
 import sys
 import threading
 import time
-from typing import List
+from typing import List, Tuple, Union
 
 # Import TimeSeed components
 try:
@@ -106,23 +106,27 @@ def create_generator_from_args(args) -> TimeSeed:
 
     # Check for custom bit allocation
     elif hasattr(args, "timestamp_bits") and any(
-        [
-            getattr(args, "timestamp_bits", None),
-            getattr(args, "machine_bits", None),
-            getattr(args, "datacenter_bits", None),
-            getattr(args, "sequence_bits", None),
-        ]
+        getattr(args, attr, None) is not None
+        for attr in ["timestamp_bits", "machine_bits", "datacenter_bits", "sequence_bits"]
     ):
         config = TimeSeedConfig.create_custom(
-            timestamp_bits=getattr(args, "timestamp_bits", 48),
-            machine_bits=getattr(args, "machine_bits", 16),
-            datacenter_bits=getattr(args, "datacenter_bits", 16),
-            sequence_bits=getattr(args, "sequence_bits", 42),
+            timestamp_bits=int(getattr(args, "timestamp_bits", 48)),
+            machine_bits=int(getattr(args, "machine_bits", 16)),
+            datacenter_bits=int(getattr(args, "datacenter_bits", 16)),
+            sequence_bits=int(getattr(args, "sequence_bits", 42))
         )
 
     # Create generator with optional machine/datacenter IDs
-    machine_id = getattr(args, "machine_id", None)
-    datacenter_id = getattr(args, "datacenter_id", None)
+    machine_id = (
+        int(getattr(args, "machine_id", 0)) 
+        if hasattr(args, "machine_id") and args.machine_id is not None 
+        else None
+    )
+    datacenter_id = (
+        int(getattr(args, "datacenter_id", 0)) 
+        if hasattr(args, "datacenter_id") and args.datacenter_id is not None 
+        else None
+    )
 
     return TimeSeed(config, machine_id, datacenter_id)
 
@@ -147,9 +151,11 @@ def cmd_generate(args) -> int:
 
         # Generate IDs
         start_time = time.time()
-        ids = []
+        ids: List[str] = []
 
         for i in range(count):
+            id_value: Union[int, str]
+
             if format_type == "integer":
                 id_value = generator.generate()
             elif format_type == "hex":
@@ -203,7 +209,7 @@ def cmd_decode(args) -> int:
         input_format = getattr(args, "input_format", "auto")
         output_format = getattr(args, "output_format", "table")
 
-        results = []
+        results: List[Tuple[str, TimeSeedComponents]] = []
 
         for id_str in ids:
             try:
@@ -235,7 +241,6 @@ def cmd_decode(args) -> int:
 
             except Exception as e:
                 print_error(f"Failed to decode '{id_str}': {e}")
-                results.append((id_str, None))
 
         # Output results
         if output_format == "json":
@@ -314,7 +319,6 @@ def cmd_benchmark(args) -> int:
 
             results[thread_id] = count
 
-        # Run benchmark
         results = [0] * threads
         thread_list = []
 
@@ -325,14 +329,12 @@ def cmd_benchmark(args) -> int:
             thread_list.append(thread)
             thread.start()
 
-        # Wait for all threads to complete
         for thread in thread_list:
             thread.join()
 
         actual_duration = time.time() - start_time
         total_count = sum(results)
 
-        # Results
         print("\n" + "=" * 50)
         print("BENCHMARK RESULTS")
         print("=" * 50)
@@ -349,7 +351,6 @@ def cmd_benchmark(args) -> int:
             print(f"Total Rate:   {format_large_number(int(total_rate))} IDs/sec")
             print(f"Per Thread:   {format_large_number(int(per_thread_rate))} IDs/sec")
 
-        # Thread breakdown
         if threads > 1:
             print("\nPer-thread results:")
             for i, count in enumerate(results):
@@ -358,7 +359,6 @@ def cmd_benchmark(args) -> int:
                 rate_str = format_large_number(int(rate))
                 print(f"  Thread {i}: {count_str} IDs ({rate_str} IDs/sec)")
 
-        # Performance stats from generator
         stats = generator.get_performance_stats()
         if stats["ids_generated"] > 0:
             print("\nGenerator stats:")
@@ -380,7 +380,6 @@ def cmd_info(args) -> int:
 
         output_format = getattr(args, "format", "table")
 
-        # Get comprehensive info
         info = generator.get_info()
 
         if output_format == "json":
@@ -389,12 +388,10 @@ def cmd_info(args) -> int:
             print("TIMESEED CONFIGURATION")
             print("=" * 50)
 
-            # Basic info
             print(f"Version:      {__version__}")
             print(f"Machine ID:   {info['machine_id']}")
             print(f"Datacenter:   {info['datacenter_id']}")
 
-            # Bit allocation
             bit_alloc = info["generator_config"]["bit_allocation"]
             print("\nBit Allocation:")
             print(f"  Timestamp:  {bit_alloc['timestamp_bits']} bits")
@@ -404,7 +401,6 @@ def cmd_info(args) -> int:
             print(f"  Total:      {bit_alloc['total_bits']} bits")
             print(f"  Unused:     {bit_alloc['unused_bits']} bits")
 
-            # Capacity
             capacity = info["capacity_info"]
             print("\nCapacity:")
             print(f"  Max machines:     {format_large_number(capacity['max_machines'])}")
@@ -413,7 +409,6 @@ def cmd_info(args) -> int:
             print(f"  Total IDs/ms:     {format_large_number(capacity['total_ids_per_ms'])}")
             print(f"  Timestamp years:  {capacity['timestamp_years']:.1f}")
 
-            # Performance stats
             stats = info["performance_stats"]
             if stats["ids_generated"] > 0:
                 print("\nPerformance Stats:")
@@ -422,7 +417,6 @@ def cmd_info(args) -> int:
                 print(f"  Sequence overflows: {stats.get('sequence_overflows', 0)}")
                 print(f"  Clock events:     {stats.get('clock_backward_events', 0)}")
 
-            # System info
             print("\nSystem Information:")
             try:
                 import socket
@@ -446,7 +440,6 @@ def cmd_config(args) -> int:
     """Configure TimeSeed settings."""
     print_info("Configuration management")
 
-    # Show current environment variables
     env_vars = [
         "TIMESEED_MACHINE_ID",
         "TIMESEED_DATACENTER_ID",
@@ -484,19 +477,16 @@ def cmd_check(args) -> int:
         else:
             print_warning("Configuration needs attention for production use")
 
-        # Show warnings
         if status["warnings"]:
             print("\nIssues found:")
             for warning in status["warnings"]:
                 print_warning(warning)
 
-        # Show recommendations
         if status["recommendations"]:
             print("\nRecommendations:")
             for rec in status["recommendations"]:
                 print_info(rec)
 
-        # Show current environment
         machine_id = os.environ.get("TIMESEED_MACHINE_ID", "Not set")
         datacenter_id = os.environ.get("TIMESEED_DATACENTER_ID", "Not set")
 
@@ -504,7 +494,6 @@ def cmd_check(args) -> int:
         print(f"  TIMESEED_MACHINE_ID:    {machine_id}")
         print(f"  TIMESEED_DATACENTER_ID: {datacenter_id}")
 
-        # Show examples if requested
         if getattr(args, "examples", False):
             examples = get_configuration_examples()
             print("\nConfiguration Examples:")

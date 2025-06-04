@@ -186,7 +186,7 @@ timeseed --preset small-scale generate
 
 ## Default Bit Allocation
 
-- **48 bits**: Timestamp (878 years from epoch)
+- **48 bits**: Timestamp (~8920 years from epoch)
 - **16 bits**: Machine ID (65,536 machines)  
 - **16 bits**: Datacenter ID (65,536 datacenters)
 - **42 bits**: Sequence (4.4 trillion IDs per millisecond)

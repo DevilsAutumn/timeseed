@@ -58,8 +58,9 @@ __description__ = (
 __url__ = "https://github.com/devilsautumn/timeseed"
 __license__ = "MIT"
 
-# Global default generator instance for convenience functions
+
 import threading
+from typing import Optional
 
 from .config import DEFAULT_CONFIG, BitAllocation, IDFormat, PresetConfigs, TimeSeedConfig
 from .exceptions import (
@@ -82,6 +83,7 @@ from .generator import TimeSeed, TimeSeedComponents
 # Utility exports for advanced users
 from .utils import FormatUtils, TimeUtils, ValidationUtils
 
+# Global default generator instance for convenience functions
 _default_generator = None
 _generator_lock = threading.Lock()
 
@@ -104,7 +106,9 @@ def _get_default_generator() -> TimeSeed:
 
 
 def configure_default(
-    config: TimeSeedConfig = None, machine_id: int = None, datacenter_id: int = None
+    config: Optional[TimeSeedConfig] = None, 
+    machine_id: Optional[int] = None, 
+    datacenter_id: Optional[int] = None
 ) -> None:
     """
     Configure the default TimeSeed generator.
@@ -162,7 +166,7 @@ def generate() -> int:
     return _get_default_generator().generate()
 
 
-def generate_hex(uppercase: bool = None) -> str:
+def generate_hex(uppercase: Optional[bool] = None) -> str:
     """
     Generate a TimeSeed ID as hexadecimal string.
 

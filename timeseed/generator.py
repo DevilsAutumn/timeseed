@@ -259,7 +259,7 @@ class TimeSeed:
                 raise
             raise TimeSeedError(f"Unexpected error during ID generation: {e}") from e
 
-    def generate_hex(self, uppercase: bool = None) -> str:
+    def generate_hex(self, uppercase: Optional[bool] = None) -> str:
         """
         Generate ID as hexadecimal string.
 
@@ -285,7 +285,7 @@ class TimeSeed:
         id_value = self.generate()
         return FormatUtils.int_to_binary(id_value, self.config.bit_allocation.total_bits)
 
-    def to_hex(self, id_value: int, uppercase: bool = None) -> str:
+    def to_hex(self, id_value: int, uppercase: Optional[bool] = None) -> str:
         """
         Convert an existing TimeSeed ID to hexadecimal format.
 
