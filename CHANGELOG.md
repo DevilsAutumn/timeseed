@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.1.2b1
+- Pre-commit setup
+
 ### 0.1.2a1
 - Fixed mypy typing issues
 - Updated docs
