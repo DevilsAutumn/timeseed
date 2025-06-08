@@ -1,6 +1,6 @@
 # TimeSeed 🌱⏰
 [![PyPI Downloads](https://static.pepy.tech/badge/timeseed)](https://pepy.tech/projects/timeseed)
-[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://github.com/devilsautumn/timeseed)
+[![Version](https://img.shields.io/badge/version-0.1.2-blue.svg)](https://github.com/devilsautumn/timeseed)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/devilsautumn/timeseed/blob/main/LICENSE)
 
