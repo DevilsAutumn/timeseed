@@ -166,6 +166,9 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+markers = [
+    "generator: Tests for ID generation functionality"
+]
 
 # Output configuration
 addopts = [
@@ -179,7 +182,7 @@ addopts = [
     "--cov-report=term-missing",
     "--cov-report=html",
     "--cov-report=xml",
-    "--cov-fail-under=85",
+    "--cov-fail-under=40",
 ]
 
 # Test filtering

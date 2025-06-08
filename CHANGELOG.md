@@ -5,6 +5,8 @@
 - Updated docs
 - Pre-commit setup (#5)
 - Added GitHub actions for code quality and typing checks (#6)
+- Added badges to github README (#9)
+- Added tests for generator (#10)
 
 ### 0.1.1 (03-06-2025)
 - Added starter docs
