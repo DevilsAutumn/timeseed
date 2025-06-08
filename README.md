@@ -6,12 +6,6 @@
 
 TimeSeed is a high-performance Python library and CLI tool for generating chronologically ordered unique identifiers with guaranteed ordering and configurable bit allocation. Unlike fixed-format ID generators, TimeSeed lets you balance timestamp precision, sequence capacity, and randomness based on your specific needs.
 
-## Description
-
-**Plant the seeds of time-ordered uniqueness**
-
-TimeSeed generates 128-bit unique identifiers with strict temporal ordering guarantees and flexible bit allocation. It provides both powerful Python APIs and comprehensive command-line tools for distributed systems requiring both uniqueness and temporal ordering.
-
 ## Why TimeSeed?
 
 - **Strict Chronological Order**: TimeSeed guarantees perfect chronological ordering
@@ -248,8 +242,8 @@ timeseed benchmark -d 10 -t 4  # 10 seconds, 4 threads
 
 ## Contributing
 
-Contributions are welcome! Please feel free to open an issue or submit a Pull Request.
+Contributions are welcome! Please feel free to [open an issue](https://github.com/DevilsAutumn/timeseed/issues/new) or submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/DevilsAutumn/timeseed/blob/main/LICENSE) file for details.

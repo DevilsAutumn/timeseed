@@ -45,7 +45,7 @@ repos:
           --show-error-codes,
           --pretty,
         ]
-        exclude: '^(tests|docs|build|dist|.*\.egg-info)'
+        exclude: '^(tests|docs|build|dist|run_tests.py|.*\.egg-info)'
         additional_dependencies: [
           'types-setuptools',
         ]
