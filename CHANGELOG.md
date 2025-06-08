@@ -1,6 +1,6 @@
 # Changelog
 
-### 0.1.2 (Under Development)
+### 0.1.2 (08-06-2025)
 - Fixed mypy typing issues (#2)
 - Updated docs
 - Pre-commit setup (#5)

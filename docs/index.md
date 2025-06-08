@@ -66,4 +66,4 @@ pip install timeseed
 
 ---
 
-**Version**: 0.1.2a1 | **Author**: Bhuvnesh Sharma | **License**: MIT
+**Version**: 0.1.2 | **Author**: Bhuvnesh Sharma | **License**: MIT

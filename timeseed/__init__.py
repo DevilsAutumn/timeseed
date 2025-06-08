@@ -48,7 +48,7 @@ Perfect for:
 - URL-safe identifiers with time-based sorting
 """
 
-__version__ = "0.1.2a1"
+__version__ = "0.1.2"
 __author__ = "Bhuvnesh Sharma"
 __email__ = "bhuvnesh875@gmail.com"
 __description__ = (
